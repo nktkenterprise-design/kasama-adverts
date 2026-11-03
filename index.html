@@ -31,6 +31,11 @@
         video::-internal-media-controls-download-button { display:none !important; }
         video::-webkit-media-controls-enclosure { overflow:hidden !important; }
         video::-webkit-media-controls-panel { width: calc(100% + 30px); }
+        .wizard-option-card input:checked + div {
+            border-color: #16a34a !important;
+            background-color: #f0fdf4 !important;
+            box-shadow: 0 0 0 2px #16a34a !important;
+        }
     </style>
 </head>
 <body class="h-full flex flex-col text-slate-900 bg-slate-50 antialiased selection:bg-kasama-500 selection:text-white">
@@ -160,7 +165,7 @@
             <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
                 <div>
                     <h3 class="font-heading font-extrabold text-xl">Post Your Business Advert</h3>
-                    <p class="text-xs text-kasama-400 mt-0.5">Quick & Organized 3-Step Process</p>
+                    <p class="text-xs text-kasama-400 mt-0.5">Mobile & Desktop Ready Process</p>
                 </div>
                 <button onclick="closeWizard()" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -172,19 +177,24 @@
             </div>
 
             <form id="wizardForm" onsubmit="handleWizardSubmit(event)" class="p-5 space-y-4">
+                <!-- Step 1 -->
                 <div id="wStep1" class="space-y-4">
                     <div>
                         <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Who is posting?</label>
                         <div class="grid grid-cols-2 gap-3">
-                            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 hover:border-kasama-500 bg-slate-50 flex flex-col">
+                            <label class="cursor-pointer wizard-option-card">
                                 <input type="radio" name="listingType" value="individual" checked onchange="updateWizardPrice()" class="sr-only">
-                                <span class="font-heading font-extrabold text-sm text-slate-900">Individual</span>
-                                <span class="text-[11px] text-slate-500">Standard / Personal</span>
+                                <div class="border-2 border-slate-200 rounded-2xl p-3 bg-slate-50 transition-all flex flex-col">
+                                    <span class="font-heading font-extrabold text-sm text-slate-900">Individual</span>
+                                    <span class="text-[11px] text-slate-500">Standard / Personal</span>
+                                </div>
                             </label>
-                            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 hover:border-kasama-500 bg-slate-50 flex flex-col">
+                            <label class="cursor-pointer wizard-option-card">
                                 <input type="radio" name="listingType" value="company" onchange="updateWizardPrice()" class="sr-only">
-                                <span class="font-heading font-extrabold text-sm text-slate-900">Company</span>
-                                <span class="text-[11px] text-slate-500">Registered Business</span>
+                                <div class="border-2 border-slate-200 rounded-2xl p-3 bg-slate-50 transition-all flex flex-col">
+                                    <span class="font-heading font-extrabold text-sm text-slate-900">Company</span>
+                                    <span class="text-[11px] text-slate-500">Registered Business</span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -192,13 +202,17 @@
                     <div>
                         <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Advert Format</label>
                         <div class="grid grid-cols-2 gap-3">
-                            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 hover:border-kasama-500 bg-slate-50 flex flex-col">
+                            <label class="cursor-pointer wizard-option-card">
                                 <input type="radio" name="mediaFormat" value="standard" checked onchange="updateWizardPrice()" class="sr-only">
-                                <span class="font-heading font-extrabold text-xs text-slate-900"><i class="fa-solid fa-image text-kasama-600 mr-1"></i> Standard (Images)</span>
+                                <div class="border-2 border-slate-200 rounded-2xl p-3 bg-slate-50 transition-all flex flex-col">
+                                    <span class="font-heading font-extrabold text-xs text-slate-900"><i class="fa-solid fa-image text-kasama-600 mr-1"></i> Standard (Images)</span>
+                                </div>
                             </label>
-                            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 hover:border-kasama-500 bg-slate-50 flex flex-col">
+                            <label class="cursor-pointer wizard-option-card">
                                 <input type="radio" name="mediaFormat" value="audiovideo" onchange="updateWizardPrice()" class="sr-only">
-                                <span class="font-heading font-extrabold text-xs text-slate-900"><i class="fa-solid fa-video text-amber-600 mr-1"></i> Audio / Video</span>
+                                <div class="border-2 border-slate-200 rounded-2xl p-3 bg-slate-50 transition-all flex flex-col">
+                                    <span class="font-heading font-extrabold text-xs text-slate-900"><i class="fa-solid fa-video text-amber-600 mr-1"></i> Audio / Video</span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -206,13 +220,17 @@
                     <div>
                         <label class="block text-xs font-extrabold uppercase text-slate-700 mb-1.5">Duration</label>
                         <div class="grid grid-cols-2 gap-3">
-                            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 hover:border-kasama-500 bg-slate-50 flex flex-col">
+                            <label class="cursor-pointer wizard-option-card">
                                 <input type="radio" name="duration" value="day" checked onchange="updateWizardPrice()" class="sr-only">
-                                <span class="font-heading font-extrabold text-xs text-slate-900">1 Day Post</span>
+                                <div class="border-2 border-slate-200 rounded-2xl p-3 bg-slate-50 transition-all flex flex-col">
+                                    <span class="font-heading font-extrabold text-xs text-slate-900">1 Day Post</span>
+                                </div>
                             </label>
-                            <label class="cursor-pointer border-2 border-slate-200 rounded-2xl p-3 hover:border-kasama-500 bg-slate-50 flex flex-col">
+                            <label class="cursor-pointer wizard-option-card">
                                 <input type="radio" name="duration" value="week" onchange="updateWizardPrice()" class="sr-only">
-                                <span class="font-heading font-extrabold text-xs text-slate-900">1 Week Post</span>
+                                <div class="border-2 border-slate-200 rounded-2xl p-3 bg-slate-50 transition-all flex flex-col">
+                                    <span class="font-heading font-extrabold text-xs text-slate-900">1 Week Post</span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -222,9 +240,10 @@
                         <input type="checkbox" id="sharedBonusCheck" onchange="updateWizardPrice()" class="w-4 h-4 text-kasama-600 rounded">
                     </div>
 
-                    <button type="button" onclick="goToWizardStep(2)" class="w-full bg-slate-900 text-white font-extrabold py-3.5 rounded-2xl text-xs">Continue to Details</button>
+                    <button type="button" onclick="goToWizardStep(2)" class="w-full bg-slate-900 text-white font-extrabold py-3.5 rounded-2xl text-xs">Continue to Details & Media</button>
                 </div>
 
+                <!-- Step 2 -->
                 <div id="wStep2" class="space-y-3 hidden">
                     <input type="text" id="wizardTitle" required placeholder="Advert Title / Business Name *" class="w-full px-4 py-2.5 border-2 border-slate-200 rounded-xl text-xs">
                     <div class="grid grid-cols-2 gap-2">
@@ -252,8 +271,9 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1" id="mediaInputLabel">Product Image URL or Video URL (Optional)</label>
-                        <input type="url" id="wizardMediaUrl" placeholder="https://..." class="w-full p-2 border-2 border-slate-200 rounded-xl text-xs bg-white">
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1" id="mediaInputLabel">Upload Media (iPhone, Android, or Computer)</label>
+                        <input type="file" id="wizardMediaFile" accept="image/*,video/*,audio/*" onchange="handleFilePreview(this, 'wizardFilePreview')" class="w-full p-2 border-2 border-slate-200 rounded-xl text-xs bg-white cursor-pointer">
+                        <div id="wizardFilePreview" class="mt-2 text-xs font-semibold text-slate-500"></div>
                     </div>
 
                     <textarea id="wizardDescription" rows="3" required placeholder="Detailed Description *" class="w-full px-3 py-2.5 border-2 border-slate-200 rounded-xl text-xs"></textarea>
@@ -264,6 +284,7 @@
                     </div>
                 </div>
 
+                <!-- Step 3 -->
                 <div id="wStep3" class="space-y-3 hidden">
                     <div class="bg-kasama-50 border-2 border-kasama-300 rounded-2xl p-4 text-center">
                         <p class="text-xs font-bold text-kasama-800 uppercase">Total Fee: <span id="displayFee" class="text-xl font-extrabold text-kasama-700">K10</span></p>
@@ -293,7 +314,7 @@
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal (Secured with NKTK / NKTK19@93) -->
+    <!-- Admin Dashboard Modal -->
     <div id="adminModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden border-2 border-slate-200">
             <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
@@ -304,7 +325,7 @@
                 <button onclick="closeAdminModal()" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Login View (Blank and Unrevealed Inputs) -->
+            <!-- Login View -->
             <div id="adminLoginBox" class="p-8 max-w-md mx-auto text-center space-y-4">
                 <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-2xl text-slate-700 mx-auto">
                     <i class="fa-solid fa-lock"></i>
@@ -322,10 +343,89 @@
                         <span class="bg-kasama-100 text-kasama-800 font-bold px-3 py-1 rounded-full text-xs">Admin Verified (NKTK)</span>
                         <span id="totalAdminCount" class="text-xs font-semibold text-slate-500">0 Total Adverts</span>
                     </div>
+                    <button onclick="openAdminPostModal()" class="bg-kasama-600 hover:bg-kasama-700 text-white font-extrabold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> Post for Client
+                    </button>
                 </div>
 
                 <div class="space-y-3" id="adminAdvertsListContainer"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Admin Post for Client Modal -->
+    <div id="adminPostModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-3">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="font-heading font-extrabold text-base">Post Advert on Behalf of Client</h3>
+                <button onclick="closeAdminPostModal()"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="handleAdminDirectPost(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold mb-1">Client Name / Business *</label>
+                    <input type="text" id="admTitle" required class="w-full p-2.5 border rounded-xl">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold mb-1">Category *</label>
+                        <select id="admCategory" class="w-full p-2.5 border rounded-xl bg-white">
+                            <option value="Shops and General Dealers">Shops and General Dealers</option>
+                            <option value="Agriculture and Farming">Agriculture and Farming</option>
+                            <option value="Real Estate and Rentals">Real Estate and Rentals</option>
+                            <option value="Vehicles and Transport">Vehicles and Transport</option>
+                            <option value="Food and Restaurants">Food and Restaurants</option>
+                            <option value="Beauty and Salons">Beauty and Salons</option>
+                            <option value="Clothing and Fashion">Clothing and Fashion</option>
+                            <option value="Electronics and Phones">Electronics and Phones</option>
+                            <option value="Education and Schools">Education and Schools</option>
+                            <option value="Jobs and Vacancies">Jobs and Vacancies</option>
+                            <option value="Professional Services">Professional Services</option>
+                            <option value="Events and Entertainment">Events and Entertainment</option>
+                            <option value="Other Products and Services">Other Products and Services</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Location *</label>
+                        <input type="text" id="admLocation" required class="w-full p-2.5 border rounded-xl">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold mb-1">WhatsApp Phone *</label>
+                        <input type="tel" id="admPhone" required class="w-full p-2.5 border rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Price / Terms</label>
+                        <input type="text" id="admPrice" placeholder="e.g. K500" class="w-full p-2.5 border rounded-xl">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold mb-1">Upload Media from Device (iPhone/Android/PC)</label>
+                    <input type="file" id="admMediaFile" accept="image/*,video/*,audio/*" onchange="handleFilePreview(this, 'admFilePreview')" class="w-full p-2 border rounded-xl bg-white cursor-pointer">
+                    <div id="admFilePreview" class="mt-1 text-[11px] font-semibold text-slate-500"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold mb-1">Listing Type</label>
+                        <select id="admType" class="w-full p-2.5 border rounded-xl bg-white">
+                            <option value="Individual">Individual</option>
+                            <option value="Company">Company</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">Status</label>
+                        <select id="admStatus" class="w-full p-2.5 border rounded-xl bg-white">
+                            <option value="Published">Published (Instant Live)</option>
+                            <option value="Awaiting Approval">Awaiting Approval</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold mb-1">Description *</label>
+                    <textarea id="admDesc" rows="3" required class="w-full p-2.5 border rounded-xl"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-kasama-600 text-white font-bold py-3 rounded-xl">Publish Client Advert</button>
+            </form>
         </div>
     </div>
 
@@ -364,6 +464,9 @@
 
         let adverts = [];
         let currentCategory = "All";
+        let uploadedBase64Media = "";
+        let adminBase64Media = "";
+
         const categories = [
             "All", "Shops and General Dealers", "Agriculture and Farming", "Real Estate and Rentals",
             "Vehicles and Transport", "Food and Restaurants", "Beauty and Salons", "Clothing and Fashion",
@@ -435,7 +538,10 @@
             emptyState.classList.add("hidden");
 
             grid.innerHTML = publicList.map(ad => {
-                const isVideo = ad.mediaUrl && (ad.mediaUrl.endsWith('.mp4') || ad.mediaUrl.endsWith('.webm') || ad.mediaUrl.includes('video'));
+                const url = ad.mediaUrl || '';
+                const isVideo = url.startsWith('data:video') || url.endsWith('.mp4') || url.endsWith('.webm') || url.includes('video') || url.endsWith('.mov');
+                const isAudio = url.startsWith('data:audio') || url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.m4a') || url.includes('audio');
+
                 return `
                 <div class="bg-white border-2 border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col justify-between">
                     <div>
@@ -450,12 +556,14 @@
                         <h3 class="font-heading font-extrabold text-slate-900 text-base mb-1">${ad.title}</h3>
                         <p class="text-xs font-bold text-kasama-700 mb-2">${ad.price}</p>
                         
-                        ${ad.mediaUrl ? `
-                            <div class="mb-3 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center">
+                        ${url ? `
+                            <div class="mb-3 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-1">
                                 ${isVideo ? `
-                                    <video src="${ad.mediaUrl}" controls controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-48 object-cover"></video>
+                                    <video src="${url}" controls playsinline controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-48 object-cover"></video>
+                                ` : isAudio ? `
+                                    <audio src="${url}" controls controlsList="nodownload noremoteplayback" oncontextmenu="return false;" class="w-full py-2 px-2"></audio>
                                 ` : `
-                                    <img src="${ad.mediaUrl}" alt="${ad.title}" class="w-full max-h-48 object-cover">
+                                    <img src="${url}" alt="${ad.title}" class="w-full max-h-48 object-cover rounded-xl">
                                 `}
                             </div>
                         ` : ''}
@@ -495,9 +603,9 @@
 
             const labelEl = document.getElementById("mediaInputLabel");
             if (format === 'standard') {
-                if (labelEl) labelEl.innerText = "Product Image URL (Optional)";
+                if (labelEl) labelEl.innerText = "Upload Product Image (iPhone, Android, or PC)";
             } else {
-                if (labelEl) labelEl.innerText = "Streamable Video/Audio URL (Optional)";
+                if (labelEl) labelEl.innerText = "Upload Audio or Video File (iPhone, Android, or PC)";
             }
 
             let price = 10;
@@ -523,6 +631,25 @@
 
             document.getElementById("displayFee").innerText = `K${price}`;
             document.getElementById("displayDuration").innerText = durationStr;
+        }
+
+        function handleFilePreview(inputEl, previewContainerId) {
+            const file = inputEl.files[0];
+            const previewEl = document.getElementById(previewContainerId);
+            if (!file) {
+                if (previewContainerId === 'wizardFilePreview') uploadedBase64Media = "";
+                if (previewContainerId === 'admFilePreview') adminBase64Media = "";
+                if (previewEl) previewEl.innerText = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (previewContainerId === 'wizardFilePreview') uploadedBase64Media = e.target.result;
+                if (previewContainerId === 'admFilePreview') adminBase64Media = e.target.result;
+                if (previewEl) previewEl.innerText = `Selected File: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+            };
+            reader.readAsDataURL(file);
         }
 
         function openWizard() { document.getElementById("wizardModal")?.classList.remove("hidden"); updateWizardPrice(); }
@@ -556,7 +683,7 @@
                 location: document.getElementById("wizardLocation").value,
                 phone: document.getElementById("wizardPhone").value,
                 price: document.getElementById("wizardPrice").value || "Contact for price",
-                mediaUrl: document.getElementById("wizardMediaUrl").value || "",
+                mediaUrl: uploadedBase64Media || "",
                 description: document.getElementById("wizardDescription").value,
                 badge: type === "company" ? "Company" : "Individual",
                 status: document.getElementById("wizardStatus").value,
@@ -566,9 +693,10 @@
             const { error } = await db.from('adverts').insert([newAd]);
 
             if (!error) {
+                uploadedBase64Media = "";
                 await loadAdvertsFromCloud();
                 closeWizard();
-                alert(`Success! Your post has been submitted for admin approval. Reference: ${refCode}`);
+                alert(`Success! Your advert has been submitted for admin approval. Reference: ${refCode}`);
             } else {
                 alert(`Error saving post: ${error.message}`);
             }
@@ -598,6 +726,39 @@
                 renderAdminAdvertsList();
             } else {
                 alert("Incorrect Username or Password.");
+            }
+        }
+
+        function openAdminPostModal() { document.getElementById("adminPostModal")?.classList.remove("hidden"); }
+        function closeAdminPostModal() { document.getElementById("adminPostModal")?.classList.add("hidden"); }
+
+        async function handleAdminDirectPost(e) {
+            e.preventDefault();
+            const refCode = `KBA-2026-${String(adverts.length + 1).padStart(4, '0')}`;
+            
+            const newAd = {
+                refCode,
+                title: document.getElementById("admTitle").value,
+                category: document.getElementById("admCategory").value,
+                location: document.getElementById("admLocation").value,
+                phone: document.getElementById("admPhone").value,
+                price: document.getElementById("admPrice").value || "Contact for price",
+                mediaUrl: adminBase64Media || "",
+                description: document.getElementById("admDesc").value,
+                badge: document.getElementById("admType").value,
+                status: document.getElementById("admStatus").value,
+                durationText: "Admin Direct Post"
+            };
+
+            const { error } = await db.from('adverts').insert([newAd]);
+
+            if (!error) {
+                adminBase64Media = "";
+                await loadAdvertsFromCloud();
+                closeAdminPostModal();
+                alert(`Client advert successfully posted and saved live! Ref: ${refCode}`);
+            } else {
+                alert(`Error publishing client post: ${error.message}`);
             }
         }
 
