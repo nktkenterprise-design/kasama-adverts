@@ -27,6 +27,9 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
+        video::-internal-media-controls-download-button { display:none !important; }
+        video::-webkit-media-controls-enclosure { overflow:hidden !important; }
+        video::-webkit-media-controls-panel { width: calc(100% + 30px); }
     </style>
 </head>
 <body class="h-full flex flex-col text-slate-900 bg-slate-50 antialiased selection:bg-kasama-500 selection:text-white">
@@ -274,7 +277,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Upload Video or Audio from Device (Optional)</label>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Select Video/Audio for Live Stream Only (No Download Allowed)</label>
                         <input type="file" id="wizardMediaFile" accept="video/*,audio/*" class="w-full p-2 border-2 border-slate-200 rounded-xl text-xs bg-white">
                     </div>
 
@@ -316,41 +319,41 @@
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal (Hidden from public) -->
+    <!-- Admin Dashboard Modal (Completely Blank Form, No Hinted Text) -->
     <div id="adminModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden border-2 border-slate-200">
             <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
                 <div>
                     <h3 class="font-heading font-extrabold text-xl">Admin Dashboard</h3>
-                    <p class="text-xs text-kasama-400 mt-0.5">Manage posts, payments, and Drive backups</p>
+                    <p class="text-xs text-kasama-400 mt-0.5">Manage posts, approvals, and backups</p>
                 </div>
                 <button onclick="closeAdminModal()" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Login View -->
+            <!-- Login View (Clean & Unrevealed) -->
             <div id="adminLoginBox" class="p-8 max-w-md mx-auto text-center space-y-4">
                 <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-2xl text-slate-700 mx-auto">
                     <i class="fa-solid fa-lock"></i>
                 </div>
-                <h3 class="font-heading font-bold text-lg">Administrator Login</h3>
-                <input type="text" id="adminUser" placeholder="Username (NKTK)" class="w-full px-4 py-3 border rounded-xl text-sm text-center">
-                <input type="password" id="adminPasswordInput" placeholder="Password (NKTK19@93)" class="w-full px-4 py-3 border rounded-xl text-sm text-center">
-                <button onclick="verifyAdminPassword()" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl text-xs">Login to Dashboard</button>
+                <h3 class="font-heading font-bold text-lg">Administrator Access</h3>
+                <input type="text" id="adminUser" placeholder="" class="w-full px-4 py-3 border rounded-xl text-sm text-center">
+                <input type="password" id="adminPasswordInput" placeholder="" class="w-full px-4 py-3 border rounded-xl text-sm text-center">
+                <button onclick="verifyAdminPassword()" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl text-xs">Login</button>
             </div>
 
             <!-- Dashboard Content View -->
             <div id="adminDashboardContent" class="hidden p-6 space-y-6 max-h-[80vh] overflow-y-auto">
                 <div class="flex flex-wrap items-center justify-between border-b pb-4 gap-3">
                     <div class="flex items-center gap-3">
-                        <span class="bg-kasama-100 text-kasama-800 font-bold px-3 py-1 rounded-full text-xs">NKTK Admin Active</span>
+                        <span class="bg-kasama-100 text-kasama-800 font-bold px-3 py-1 rounded-full text-xs">Admin Session Active</span>
                         <span id="totalAdminCount" class="text-xs font-semibold text-slate-500">0 Total Adverts</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="exportDatabase()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5" title="Download backup file before updating code">
-                            <i class="fa-solid fa-download"></i> Export DB Backup
+                        <button onclick="exportDatabase()" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5" title="Export database backup">
+                            <i class="fa-solid fa-download"></i> Backup DB
                         </button>
-                        <label class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer" title="Restore database from backup file">
-                            <i class="fa-solid fa-upload"></i> Import DB Backup
+                        <label class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer" title="Restore database backup">
+                            <i class="fa-solid fa-upload"></i> Restore DB
                             <input type="file" id="importFile" accept=".json" onchange="importDatabase(event)" class="hidden">
                         </label>
                         <button onclick="openAdminPostModal()" class="bg-kasama-600 hover:bg-kasama-700 text-white font-extrabold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5">
@@ -411,7 +414,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block font-bold mb-1">Upload Media File (Optional)</label>
+                    <label class="block font-bold mb-1">Upload Media File (Stream Only)</label>
                     <input type="file" id="admMediaFile" accept="video/*,audio/*" class="w-full p-2 border rounded-xl bg-white">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
@@ -439,7 +442,7 @@
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- Safety Modal -->
     <div id="securityModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4">
             <h3 class="font-heading font-extrabold text-lg">Safety Guidelines</h3>
@@ -542,7 +545,7 @@
                     if (Array.isArray(imported)) {
                         adverts = imported;
                         saveAndRefresh();
-                        alert("Database successfully restored from backup!");
+                        alert("Database successfully restored!");
                     } else {
                         alert("Invalid backup file format.");
                     }
@@ -588,10 +591,8 @@
                         <p class="text-xs font-bold text-kasama-700 mb-2">${ad.price}</p>
                         
                         ${ad.mediaUrl ? `
-                            <div class="mb-3">
-                                <a href="${ad.mediaUrl}" target="_blank" download class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 text-amber-800 px-3 py-1.5 rounded-xl border border-amber-200 hover:bg-amber-100">
-                                    <i class="fa-solid fa-play-circle text-amber-600"></i> Play / Download Media (${ad.mediaName || 'Attached File'})
-                                </a>
+                            <div class="mb-3 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
+                                <video src="${ad.mediaUrl}" controls controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-48 object-cover"></video>
                             </div>
                         ` : ''}
 
@@ -617,6 +618,8 @@
 
         function filterCategory(cat) { currentCategory = cat; renderCategories(); handleSearch(); }
         function handleSearch() {
+            adverts = JSON.parse(localStorage.getItem("kasama_adverts_db")) || sampleAdverts;
+            
             const query = document.getElementById("searchInput")?.value.toLowerCase() || "";
             const statusVal = document.getElementById("statusFilter")?.value || "All";
             const filtered = adverts.filter(ad => {
@@ -650,10 +653,8 @@
                         <p class="text-xs font-bold text-kasama-700 mb-2">${ad.price}</p>
                         
                         ${ad.mediaUrl ? `
-                            <div class="mb-3">
-                                <a href="${ad.mediaUrl}" target="_blank" download class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 text-amber-800 px-3 py-1.5 rounded-xl border border-amber-200 hover:bg-amber-100">
-                                    <i class="fa-solid fa-play-circle text-amber-600"></i> Play / Download Media (${ad.mediaName || 'Attached File'})
-                                </a>
+                            <div class="mb-3 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
+                                <video src="${ad.mediaUrl}" controls controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-48 object-cover"></video>
                             </div>
                         ` : ''}
 
@@ -682,7 +683,7 @@
             document.getElementById("statusFilter").value = "All";
             currentCategory = "All";
             renderCategories();
-            renderAdverts(adverts);
+            handleSearch();
         }
 
         function updateWizardPrice() {
@@ -743,6 +744,7 @@
             const duration = document.querySelector('input[name="duration"]:checked')?.value;
             const shared = document.getElementById("sharedBonusCheck")?.checked;
             
+            adverts = JSON.parse(localStorage.getItem("kasama_adverts_db")) || sampleAdverts;
             const refCode = `KBA-2026-${String(adverts.length + 1).padStart(4, '0')}`;
             const durationText = duration === 'week' ? (shared ? "1 Week (+3 Bonus Days)" : "1 Week") : (shared ? "1 Day (+1 Bonus Day)" : "1 Day");
 
@@ -785,6 +787,7 @@
 
         function openAdminModal() { 
             document.getElementById("adminModal")?.classList.remove("hidden"); 
+            adverts = JSON.parse(localStorage.getItem("kasama_adverts_db")) || sampleAdverts;
             if (localStorage.getItem("kasama_admin_auth") === "true") {
                 document.getElementById("adminLoginBox").classList.add("hidden");
                 document.getElementById("adminDashboardContent").classList.remove("hidden");
@@ -806,11 +809,12 @@
                 document.getElementById("adminDashboardContent").classList.remove("hidden");
                 renderAdminAdvertsList();
             } else {
-                alert("Incorrect Username or Password! Access restricted.");
+                alert("Incorrect credentials.");
             }
         }
 
         function renderAdminAdvertsList() {
+            adverts = JSON.parse(localStorage.getItem("kasama_adverts_db")) || sampleAdverts;
             const container = document.getElementById("adminAdvertsListContainer");
             document.getElementById("totalAdminCount").innerText = `${adverts.length} Total Adverts`;
             container.innerHTML = adverts.map(ad => `
@@ -862,6 +866,7 @@
 
         function handleAdminDirectPost(e) {
             e.preventDefault();
+            adverts = JSON.parse(localStorage.getItem("kasama_adverts_db")) || sampleAdverts;
             const refCode = `KBA-2026-${String(adverts.length + 1).padStart(4, '0')}`;
             
             const fileInput = document.getElementById("admMediaFile");
