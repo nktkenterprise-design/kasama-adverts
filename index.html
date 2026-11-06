@@ -128,7 +128,7 @@
         <!-- Categories -->
         <div>
             <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
-                <i class="fa-solid fa-hand-pointer text-kasama-600"></i> Tap any advert to view in full screen:
+                <i class="fa-solid fa-hand-pointer text-kasama-600"></i> Tap any advert below to magnify and view full screen:
             </p>
             <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryButtons"></div>
         </div>
@@ -139,8 +139,8 @@
             <span class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full" id="adCount">0 Items</span>
         </div>
 
-        <!-- Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="advertsGrid"></div>
+        <!-- Grid (Larger, Bolder Cards) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" id="advertsGrid"></div>
 
         <div id="emptyState" class="hidden text-center py-12 bg-white rounded-2xl border-2 border-dashed border-slate-200 p-6">
             <i class="fa-solid fa-store-slash text-4xl text-slate-300 mb-3"></i>
@@ -150,44 +150,44 @@
 
     </main>
 
-    <!-- FULL-SCREEN LIGHTBOX MODAL -->
+    <!-- FULL-SCREEN MAGNIFIER LIGHTBOX MODAL -->
     <div id="lightboxModal" class="fixed inset-0 z-50 hidden bg-slate-950/95 backdrop-blur-md flex flex-col overflow-y-auto p-3 sm:p-6">
         <div class="max-w-4xl w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-slate-200 flex flex-col my-auto">
-            <div class="bg-gradient-to-r from-kasama-700 to-slate-900 text-white p-4 sm:p-5 flex items-center justify-between">
+            <div class="bg-gradient-to-r from-kasama-700 to-slate-900 text-white p-4 sm:p-6 flex items-center justify-between">
                 <div>
-                    <span id="lightboxBadge" class="bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Badge</span>
-                    <h3 id="lightboxTitle" class="font-heading font-extrabold text-lg sm:text-2xl mt-1">Advert Title</h3>
+                    <span id="lightboxBadge" class="bg-amber-400 text-slate-950 text-xs font-extrabold px-3 py-1 rounded-full uppercase">Badge</span>
+                    <h3 id="lightboxTitle" class="font-heading font-extrabold text-xl sm:text-3xl mt-2">Advert Title</h3>
                 </div>
-                <button onclick="closeLightbox()" class="w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center text-xl transition"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeLightbox()" class="w-11 h-11 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center text-xl transition"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <div class="p-4 sm:p-6 space-y-4">
-                <div class="flex flex-wrap items-center justify-between text-xs font-mono text-slate-500 bg-slate-100 p-3 rounded-2xl">
-                    <span>Ref Code: <strong id="lightboxRef" class="text-slate-800">KBA-2026</strong></span>
-                    <span>Location: <strong id="lightboxLocation" class="text-kasama-700">Kasama</strong></span>
-                    <span>Duration: <strong id="lightboxDuration" class="text-slate-800">1 Day</strong></span>
+            <div class="p-5 sm:p-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between text-xs sm:text-sm font-mono text-slate-600 bg-slate-100 p-4 rounded-2xl">
+                    <span>Ref Code: <strong id="lightboxRef" class="text-slate-900 font-bold">KBA-2026</strong></span>
+                    <span>Location: <strong id="lightboxLocation" class="text-kasama-700 font-bold">Kasama</strong></span>
+                    <span>Duration: <strong id="lightboxDuration" class="text-slate-900 font-bold">1 Day</strong></span>
                 </div>
 
-                <div id="lightboxMediaContainer" class="w-full bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center p-2 min-h-[250px] max-h-[60vh]">
+                <div id="lightboxMediaContainer" class="w-full bg-slate-950 rounded-3xl overflow-hidden flex items-center justify-center p-3 min-h-[300px] max-h-[65vh]">
                     <!-- Dynamic Media Content -->
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <span id="lightboxPrice" class="text-xl sm:text-2xl font-extrabold text-kasama-700 font-heading">K0</span>
-                    <span id="lightboxCategory" class="text-xs font-bold bg-kasama-100 text-kasama-800 px-3 py-1.5 rounded-full">Category</span>
+                    <span id="lightboxPrice" class="text-2xl sm:text-3xl font-extrabold text-kasama-700 font-heading">K0</span>
+                    <span id="lightboxCategory" class="text-xs sm:text-sm font-bold bg-kasama-100 text-kasama-800 px-4 py-2 rounded-full">Category</span>
                 </div>
 
-                <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl">
-                    <h4 class="text-xs font-extrabold uppercase text-slate-400 mb-1">Full Description</h4>
-                    <p id="lightboxDescription" class="text-sm text-slate-700 whitespace-pre-line leading-relaxed"></p>
+                <div class="bg-slate-50 border-2 border-slate-200 p-5 rounded-3xl">
+                    <h4 class="text-xs font-extrabold uppercase text-slate-400 mb-2 tracking-wider">Full Description</h4>
+                    <p id="lightboxDescription" class="text-sm sm:text-base text-slate-800 whitespace-pre-line leading-relaxed"></p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <a id="lightboxWhatsAppBtn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Contact via WhatsApp
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <a id="lightboxWhatsAppBtn" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 rounded-2xl text-base flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/30 transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Contact via WhatsApp
                     </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://nsofwa.github.io/kasama-adverts/" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition">
-                        <i class="fa-brands fa-facebook text-lg"></i> Share on Facebook
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://nsofwa.github.io/kasama-adverts/" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 rounded-2xl text-base flex items-center justify-center gap-2 shadow-xl shadow-blue-600/30 transition">
+                        <i class="fa-brands fa-facebook text-xl"></i> Share on Facebook
                     </a>
                 </div>
             </div>
@@ -604,48 +604,54 @@
             if (filtered.length === 0) { grid.innerHTML = ""; emptyState.classList.remove("hidden"); return; }
             emptyState.classList.add("hidden");
 
+            // Render larger, bolder, fully clickable colorful cards
             grid.innerHTML = filtered.map(ad => {
                 const url = ad.mediaUrl || '';
                 const isVideo = url.startsWith('data:video') || url.endsWith('.mp4') || url.endsWith('.webm') || url.includes('video') || url.endsWith('.mov');
                 const isAudio = url.startsWith('data:audio') || url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.m4a') || url.includes('audio');
 
                 return `
-                <div onclick="openLightbox(${ad.id})" class="bg-white border-2 border-slate-200 hover:border-kasama-500 rounded-3xl p-5 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col justify-between group">
+                <div onclick="openLightbox(${ad.id})" class="bg-gradient-to-br from-white via-slate-50 to-emerald-50/30 border-2 border-slate-200 hover:border-kasama-500 rounded-3xl p-6 sm:p-7 shadow-md hover:shadow-2xl transition-all cursor-pointer flex flex-col justify-between group transform hover:-translate-y-1">
                     <div>
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase ${ad.badge === 'Company' ? 'bg-amber-100 text-amber-900' : 'bg-kasama-100 text-kasama-900'}">${ad.badge}</span>
-                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full border bg-emerald-100 text-emerald-800">Live</span>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full uppercase ${ad.badge === 'Company' ? 'bg-amber-100 text-amber-900 border border-amber-200' : 'bg-kasama-100 text-kasama-900 border border-kasama-200'}">${ad.badge}</span>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full border bg-emerald-100 text-emerald-800 border-emerald-300 flex items-center gap-1.5"><i class="fa-solid fa-circle text-[8px]"></i> LIVE VERIFIED</span>
                         </div>
-                        <div class="flex justify-between text-[11px] text-slate-400 font-mono mb-1">
-                            <span>Ref: <strong>${ad.refCode}</strong></span>
+                        
+                        <div class="flex justify-between text-xs text-slate-500 font-mono mb-2">
+                            <span>Ref: <strong class="text-slate-800">${ad.refCode}</strong></span>
                             <span>${ad.durationText || 'Standard'}</span>
                         </div>
-                        <h3 class="font-heading font-extrabold text-slate-900 text-base mb-1 group-hover:text-kasama-600 transition">${ad.title}</h3>
-                        <p class="text-xs font-bold text-kasama-700 mb-2">${ad.price}</p>
+
+                        <h3 class="font-heading font-extrabold text-slate-900 text-lg sm:text-xl mb-1.5 group-hover:text-kasama-600 transition">${ad.title}</h3>
+                        <p class="text-sm font-extrabold text-kasama-700 mb-3">${ad.price}</p>
                         
                         ${url ? `
-                            <div class="mb-3 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-1">
+                            <div class="mb-4 rounded-2xl overflow-hidden bg-slate-950 border-2 border-slate-200 shadow-inner flex items-center justify-center p-1">
                                 ${isVideo ? `
-                                    <video src="${url}" class="w-full max-h-48 object-cover pointer-events-none"></video>
+                                    <video src="${url}" class="w-full max-h-60 object-cover pointer-events-none"></video>
                                 ` : isAudio ? `
-                                    <div class="w-full py-6 text-center text-kasama-400 font-bold text-xs"><i class="fa-solid fa-music text-lg mb-1"></i><br>Audio Clip Attached</div>
+                                    <div class="w-full py-8 text-center text-kasama-300 font-bold text-sm"><i class="fa-solid fa-music text-2xl mb-1 text-kasama-400"></i><br>Audio Recording Attached</div>
                                 ` : `
-                                    <img src="${url}" alt="${ad.title}" class="w-full max-h-48 object-cover rounded-xl">
+                                    <img src="${url}" alt="${ad.title}" class="w-full max-h-60 object-cover rounded-xl group-hover:scale-105 transition duration-300">
                                 `}
                             </div>
                         ` : ''}
 
-                        <p class="text-xs text-slate-600 line-clamp-3 mb-4">${ad.description}</p>
+                        <p class="text-xs sm:text-sm text-slate-700 line-clamp-3 mb-5 leading-relaxed">${ad.description}</p>
                     </div>
-                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-kasama-700">
-                        <span><i class="fa-solid fa-location-dot text-kasama-600 mr-1"></i>${ad.location}</span>
-                        <span class="bg-kasama-50 text-kasama-800 px-2.5 py-1 rounded-xl group-hover:bg-kasama-600 group-hover:text-white transition">Tap to View Full Screen <i class="fa-solid fa-expand ml-0.5"></i></span>
+
+                    <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs sm:text-sm font-bold">
+                        <span class="text-slate-700"><i class="fa-solid fa-location-dot text-kasama-600 mr-1.5 text-base"></i>${ad.location}</span>
+                        <span class="bg-kasama-600 text-white px-4 py-2 rounded-2xl shadow-md group-hover:bg-kasama-700 transition flex items-center gap-1.5">
+                            <span>Tap to Magnify</span> <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </span>
                     </div>
                 </div>
             `;}).join("");
         }
 
-        // FULL SCREEN LIGHTBOX VIEWER
+        // FULL SCREEN LIGHTBOX VIEWER (MAGNIFIER)
         function openLightbox(id) {
             const ad = adverts.find(a => a.id === id);
             if (!ad) return;
@@ -668,13 +674,13 @@
             const isAudio = url.startsWith('data:audio') || url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.m4a') || url.includes('audio');
 
             if (!url) {
-                mediaContainer.innerHTML = `<div class="text-slate-400 py-12 text-xs">No media attached to this advert</div>`;
+                mediaContainer.innerHTML = `<div class="text-slate-400 py-12 text-sm">No media attached to this advert</div>`;
             } else if (isVideo) {
-                mediaContainer.innerHTML = `<video src="${url}" controls autoplay playsinline controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-[55vh] object-contain rounded-xl"></video>`;
+                mediaContainer.innerHTML = `<video src="${url}" controls autoplay playsinline controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-[65vh] object-contain rounded-2xl"></video>`;
             } else if (isAudio) {
-                mediaContainer.innerHTML = `<div class="py-12 px-4 w-full text-center space-y-3"><i class="fa-solid fa-headphones text-kasama-500 text-4xl"></i><audio src="${url}" controls autoplay controlsList="nodownload noremoteplayback" oncontextmenu="return false;" class="w-full"></audio></div>`;
+                mediaContainer.innerHTML = `<div class="py-12 px-4 w-full text-center space-y-4"><i class="fa-solid fa-headphones text-kasama-400 text-5xl"></i><audio src="${url}" controls autoplay controlsList="nodownload noremoteplayback" oncontextmenu="return false;" class="w-full"></audio></div>`;
             } else {
-                mediaContainer.innerHTML = `<img src="${url}" alt="${ad.title}" class="w-full max-h-[55vh] object-contain rounded-xl shadow-lg">`;
+                mediaContainer.innerHTML = `<img src="${url}" alt="${ad.title}" class="w-full max-h-[65vh] object-contain rounded-2xl shadow-2xl">`;
             }
 
             document.getElementById("lightboxModal").classList.remove("hidden");
