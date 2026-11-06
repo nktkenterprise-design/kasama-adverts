@@ -36,6 +36,106 @@
             background-color: #f0fdf4 !important;
             box-shadow: 0 0 0 2px #16a34a !important;
         }
+
+        /* ===== Theme modes: Light / Medium / Dark ===== */
+        body.theme-light {
+            background: #f8fafc !important;
+            color: #0f172a !important;
+        }
+        body.theme-medium {
+            background: #e7e5e4 !important;
+            color: #292524 !important;
+        }
+        body.theme-dark {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+        body.theme-dark .bg-white,
+        body.theme-dark .bg-slate-50,
+        body.theme-dark .bg-slate-100,
+        body.theme-dark .bg-slate-200 {
+            background-color: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+        body.theme-medium .bg-white { background-color: #fafaf9 !important; }
+        body.theme-medium .bg-slate-50 { background-color: #f5f5f4 !important; }
+        body.theme-dark .text-slate-900,
+        body.theme-dark .text-slate-800,
+        body.theme-dark .text-slate-700 {
+            color: #e2e8f0 !important;
+        }
+        body.theme-dark .text-slate-600,
+        body.theme-dark .text-slate-500,
+        body.theme-dark .text-slate-400 {
+            color: #94a3b8 !important;
+        }
+        body.theme-dark .border-slate-200,
+        body.theme-dark .border-slate-300 {
+            border-color: #334155 !important;
+        }
+        body.theme-dark input,
+        body.theme-dark textarea,
+        body.theme-dark select {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #475569 !important;
+        }
+        body.theme-dark .placeholder\:text-slate-400::placeholder {
+            color: #94a3b8 !important;
+        }
+        body.theme-dark .bg-gradient-to-br.from-white {
+            background-image: linear-gradient(to bottom right, #1e293b, #172033, #123024) !important;
+        }
+        body.theme-dark header {
+            background-color: #111827 !important;
+            border-color: #334155 !important;
+        }
+        .theme-switcher {
+            display:flex;
+            align-items:center;
+            gap:4px;
+            padding:4px;
+            border:1px solid #cbd5e1;
+            border-radius:14px;
+            background:rgba(255,255,255,.9);
+            box-shadow:0 2px 8px rgba(15,23,42,.08);
+        }
+        .theme-switcher button {
+            width:34px;height:32px;border-radius:10px;border:0;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;font-size:14px;
+            transition:.2s;
+        }
+        .theme-switcher button:hover { transform:translateY(-1px); }
+        .theme-switcher button.active { background:#16a34a;color:white;box-shadow:0 2px 7px rgba(22,163,74,.3); }
+        body.theme-dark .theme-switcher {
+            background:#1e293b;border-color:#475569;
+        }
+        body.theme-dark .theme-switcher button { color:#cbd5e1; }
+        body.theme-medium .theme-switcher { background:#fafaf9; }
+
+        /* ===== AI Assistant ===== */
+        #aiAssistantButton {
+            position:fixed;right:18px;bottom:18px;z-index:60;
+            border:0;border-radius:999px;padding:12px 16px;
+            background:linear-gradient(135deg,#16a34a,#166534);color:white;
+            font-weight:800;box-shadow:0 10px 28px rgba(22,101,52,.35);
+            cursor:pointer;display:flex;align-items:center;gap:9px;
+        }
+        #aiAssistantButton:hover { transform:translateY(-2px); }
+        #aiAssistantModal {
+            position:fixed;right:18px;bottom:78px;z-index:60;width:min(390px,calc(100vw - 28px));
+            max-height:70vh;background:white;border:1px solid #cbd5e1;border-radius:22px;
+            box-shadow:0 24px 70px rgba(15,23,42,.28);overflow:hidden;
+        }
+        body.theme-dark #aiAssistantModal { background:#1e293b;color:#e2e8f0;border-color:#475569; }
+        .ai-msg { padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.45; }
+        .ai-user { background:#dcfce7;color:#14532d;margin-left:30px; }
+        .ai-bot { background:#f1f5f9;color:#334155;margin-right:30px; }
+        body.theme-dark .ai-bot { background:#0f172a;color:#cbd5e1; }
+        body.theme-dark .ai-user { background:#14532d;color:#dcfce7; }
+        .ai-quick { border:1px solid #cbd5e1;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;background:white;cursor:pointer; }
+        body.theme-dark .ai-quick { background:#0f172a;color:#cbd5e1;border-color:#475569; }
+
     </style>
 </head>
 <body class="h-full flex flex-col text-slate-900 bg-slate-50 antialiased selection:bg-kasama-500 selection:text-white">
@@ -62,10 +162,20 @@
             </div>
 
             <div class="flex items-center gap-2">
+                <div class="theme-switcher hidden sm:flex" aria-label="Theme selector">
+                    <button id="themeLightBtn" onclick="setTheme('light')" title="Light mode" aria-label="Light mode">☀️</button>
+                    <button id="themeMediumBtn" onclick="setTheme('medium')" title="Medium mode" aria-label="Medium mode">◐</button>
+                    <button id="themeDarkBtn" onclick="setTheme('dark')" title="Dark mode" aria-label="Dark mode">🌙</button>
+                </div>
                 <a href="https://facebook.com/groups/1125411816805175/" target="_blank" rel="noopener noreferrer" class="hidden lg:flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold px-3 py-2.5 rounded-2xl border border-blue-200 text-xs transition">
                     <i class="fa-brands fa-facebook text-blue-600 text-sm"></i>
                     <span>Community Group</span>
                 </a>
+                <div class="theme-switcher flex sm:hidden" aria-label="Theme selector">
+                    <button id="themeLightBtnMobile" onclick="setTheme('light')" title="Light mode" aria-label="Light mode">☀️</button>
+                    <button id="themeMediumBtnMobile" onclick="setTheme('medium')" title="Medium mode" aria-label="Medium mode">◐</button>
+                    <button id="themeDarkBtnMobile" onclick="setTheme('dark')" title="Dark mode" aria-label="Dark mode">🌙</button>
+                </div>
                 <button onclick="openWizard()" class="bg-kasama-600 hover:bg-kasama-700 active:scale-95 text-white font-extrabold px-4 sm:px-6 py-3 rounded-2xl shadow-lg shadow-kasama-600/30 flex items-center gap-2 transition text-sm sm:text-base">
                     <i class="fa-solid fa-circle-plus text-xl"></i>
                     <span>POST ADVERT</span>
@@ -128,7 +238,7 @@
         <!-- Categories -->
         <div>
             <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
-                <i class="fa-solid fa-hand-pointer text-kasama-600"></i> Tap any advert below to magnify and view full screen:
+                <i class="fa-solid fa-hand-pointer text-kasama-600"></i> Tap any advert below to enter magnified mode — swipe or use the arrows to browse adverts without going back:
             </p>
             <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryButtons"></div>
         </div>
@@ -152,6 +262,15 @@
 
     <!-- FULL-SCREEN MAGNIFIER LIGHTBOX MODAL -->
     <div id="lightboxModal" class="fixed inset-0 z-50 hidden bg-slate-950/95 backdrop-blur-md flex flex-col overflow-y-auto p-3 sm:p-6">
+        <div class="fixed top-3 left-1/2 -translate-x-1/2 z-[55] flex items-center gap-2 bg-slate-900/90 text-white px-3 py-2 rounded-full shadow-xl text-xs font-bold backdrop-blur-sm">
+            <button onclick="showPreviousMagnifiedAdvert()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20" aria-label="Previous advert">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <span id="magnifiedPosition">1 / 1</span>
+            <button onclick="showNextMagnifiedAdvert()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20" aria-label="Next advert">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
         <div class="max-w-4xl w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-slate-200 flex flex-col my-auto">
             <div class="bg-gradient-to-r from-kasama-700 to-slate-900 text-white p-4 sm:p-6 flex items-center justify-between">
                 <div>
@@ -524,6 +643,38 @@
         </div>
     </div>
 
+
+    <!-- AI ASSISTANT -->
+    <button id="aiAssistantButton" onclick="toggleAIAssistant()" aria-label="Open AI Assistant">
+        <i class="fa-solid fa-robot"></i><span>AI Assistant</span>
+    </button>
+
+    <div id="aiAssistantModal" class="hidden">
+        <div class="bg-slate-900 text-white px-4 py-3 flex items-center justify-between">
+            <div>
+                <div class="font-heading font-extrabold">AI Assistant</div>
+                <div class="text-[10px] text-slate-300">Kasama Business Adverts helper</div>
+            </div>
+            <button onclick="toggleAIAssistant()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="aiMessages" class="p-3 space-y-2 overflow-y-auto max-h-[38vh]">
+            <div class="ai-msg ai-bot">Hello! 👋 I can help you understand how to post an advert, check a post, find categories, contact a seller, or use this website.</div>
+        </div>
+        <div class="px-3 pb-2 flex flex-wrap gap-1.5">
+            <button class="ai-quick" onclick="askAI('How do I post an advert?')">Post an advert</button>
+            <button class="ai-quick" onclick="askAI('How do I check my advert status?')">Check status</button>
+            <button class="ai-quick" onclick="askAI('What can I search for?')">Search help</button>
+        </div>
+        <form onsubmit="sendAIMessage(event)" class="p-3 border-t border-slate-200 flex gap-2">
+            <input id="aiInput" type="text" placeholder="Ask the AI Assistant..." class="flex-1 px-3 py-2.5 rounded-xl border-2 border-slate-200 text-xs focus:outline-none focus:border-kasama-500">
+            <button class="bg-kasama-600 hover:bg-kasama-700 text-white px-3.5 rounded-xl font-bold" aria-label="Send">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
     <!-- Script Engine -->
     <script>
         const SUPABASE_URL = "https://uygzumjudimckdxofueo.supabase.co";
@@ -652,8 +803,42 @@
         }
 
         // FULL SCREEN LIGHTBOX VIEWER (MAGNIFIER)
+        let magnifiedAdverts = [];
+        let magnifiedIndex = -1;
+
+        function getVisiblePublishedAdverts() {
+            const query = document.getElementById("searchInput")?.value.toLowerCase() || "";
+            return adverts.filter(ad => {
+                const isPublished = ad.status === "Published";
+                const matchesCat = currentCategory === "All" || ad.category === currentCategory;
+                const matchesSearch =
+                    (ad.title || '').toLowerCase().includes(query) ||
+                    (ad.refCode || '').toLowerCase().includes(query) ||
+                    (ad.location || '').toLowerCase().includes(query);
+                return isPublished && matchesCat && matchesSearch;
+            });
+        }
+
         function openLightbox(id) {
             const ad = adverts.find(a => a.id === id);
+            if (!ad) return;
+
+            magnifiedAdverts = getVisiblePublishedAdverts();
+            magnifiedIndex = magnifiedAdverts.findIndex(a => a.id === id);
+
+            // Fallback in case the advert is no longer in the filtered list.
+            if (magnifiedIndex < 0) {
+                magnifiedAdverts = [ad];
+                magnifiedIndex = 0;
+            }
+
+            renderMagnifiedAdvert();
+            document.getElementById("lightboxModal").classList.remove("hidden");
+            document.body.classList.add("overflow-hidden");
+        }
+
+        function renderMagnifiedAdvert() {
+            const ad = magnifiedAdverts[magnifiedIndex];
             if (!ad) return;
 
             document.getElementById("lightboxTitle").innerText = ad.title;
@@ -664,32 +849,84 @@
             document.getElementById("lightboxPrice").innerText = ad.price;
             document.getElementById("lightboxCategory").innerText = ad.category;
             document.getElementById("lightboxDescription").innerText = ad.description;
-            
+
+            const position = document.getElementById("magnifiedPosition");
+            if (position) {
+                position.innerText = `${magnifiedIndex + 1} / ${magnifiedAdverts.length}`;
+            }
+
             const waBtn = document.getElementById("lightboxWhatsAppBtn");
             waBtn.href = `https://wa.me/26${(ad.phone || '').replace(/\s+/g, '')}`;
 
             const mediaContainer = document.getElementById("lightboxMediaContainer");
             const url = ad.mediaUrl || '';
-            const isVideo = url.startsWith('data:video') || url.endsWith('.mp4') || url.endsWith('.webm') || url.includes('video') || url.endsWith('.mov');
-            const isAudio = url.startsWith('data:audio') || url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.m4a') || url.includes('audio');
+            const isVideo = url.startsWith('data:video') || url.endsWith('.mp4') ||
+                url.endsWith('.webm') || url.includes('video') || url.endsWith('.mov');
+            const isAudio = url.startsWith('data:audio') || url.endsWith('.mp3') ||
+                url.endsWith('.wav') || url.endsWith('.m4a') || url.includes('audio');
 
             if (!url) {
-                mediaContainer.innerHTML = `<div class="text-slate-400 py-12 text-sm">No media attached to this advert</div>`;
+                mediaContainer.innerHTML =
+                    `<div class="text-slate-400 py-12 text-sm">No media attached to this advert</div>`;
             } else if (isVideo) {
-                mediaContainer.innerHTML = `<video src="${url}" controls autoplay playsinline controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-[65vh] object-contain rounded-2xl"></video>`;
+                mediaContainer.innerHTML =
+                    `<video src="${url}" controls autoplay playsinline controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false;" class="w-full max-h-[65vh] object-contain rounded-2xl"></video>`;
             } else if (isAudio) {
-                mediaContainer.innerHTML = `<div class="py-12 px-4 w-full text-center space-y-4"><i class="fa-solid fa-headphones text-kasama-400 text-5xl"></i><audio src="${url}" controls autoplay controlsList="nodownload noremoteplayback" oncontextmenu="return false;" class="w-full"></audio></div>`;
+                mediaContainer.innerHTML =
+                    `<div class="py-12 px-4 w-full text-center space-y-4"><i class="fa-solid fa-headphones text-kasama-400 text-5xl"></i><audio src="${url}" controls autoplay controlsList="nodownload noremoteplayback" oncontextmenu="return false;" class="w-full"></audio></div>`;
             } else {
-                mediaContainer.innerHTML = `<img src="${url}" alt="${ad.title}" class="w-full max-h-[65vh] object-contain rounded-2xl shadow-2xl">`;
+                mediaContainer.innerHTML =
+                    `<img src="${url}" alt="${ad.title}" class="w-full max-h-[65vh] object-contain rounded-2xl shadow-2xl">`;
             }
+        }
 
-            document.getElementById("lightboxModal").classList.remove("hidden");
+        function showNextMagnifiedAdvert() {
+            if (!magnifiedAdverts.length) return;
+            magnifiedIndex = (magnifiedIndex + 1) % magnifiedAdverts.length;
+            renderMagnifiedAdvert();
+        }
+
+        function showPreviousMagnifiedAdvert() {
+            if (!magnifiedAdverts.length) return;
+            magnifiedIndex = (magnifiedIndex - 1 + magnifiedAdverts.length) % magnifiedAdverts.length;
+            renderMagnifiedAdvert();
         }
 
         function closeLightbox() {
             document.getElementById("lightboxModal").classList.add("hidden");
             document.getElementById("lightboxMediaContainer").innerHTML = "";
+            document.body.classList.remove("overflow-hidden");
+            magnifiedAdverts = [];
+            magnifiedIndex = -1;
         }
+
+        // Swipe left/right on phones while in magnified mode.
+        let lightboxTouchStartX = null;
+        document.addEventListener("touchstart", (e) => {
+            if (!document.getElementById("lightboxModal")?.classList.contains("hidden")) {
+                lightboxTouchStartX = e.changedTouches[0].screenX;
+            }
+        }, {passive: true});
+
+        document.addEventListener("touchend", (e) => {
+            if (lightboxTouchStartX === null) return;
+            if (document.getElementById("lightboxModal")?.classList.contains("hidden")) return;
+
+            const deltaX = e.changedTouches[0].screenX - lightboxTouchStartX;
+            if (Math.abs(deltaX) > 55) {
+                if (deltaX < 0) showNextMagnifiedAdvert();
+                else showPreviousMagnifiedAdvert();
+            }
+            lightboxTouchStartX = null;
+        }, {passive: true});
+
+        // Keyboard navigation while magnified.
+        document.addEventListener("keydown", (e) => {
+            if (document.getElementById("lightboxModal")?.classList.contains("hidden")) return;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") showNextMagnifiedAdvert();
+            if (e.key === "ArrowLeft" || e.key === "ArrowUp") showPreviousMagnifiedAdvert();
+            if (e.key === "Escape") closeLightbox();
+        });
 
         function resetFilters() {
             document.getElementById("searchInput").value = "";
@@ -1092,6 +1329,91 @@
         function shareOnFacebookGroups() {
             window.open(`https://facebook.com/groups/1125411816805175/`, '_blank');
         }
+
+        /* ===== Theme controller ===== */
+        function setTheme(theme) {
+            const allowed = ['light', 'medium', 'dark'];
+            if (!allowed.includes(theme)) theme = 'light';
+            document.body.classList.remove('theme-light', 'theme-medium', 'theme-dark');
+            document.body.classList.add(`theme-${theme}`);
+            localStorage.setItem('kasama_theme', theme);
+
+            ['light', 'medium', 'dark'].forEach(t => {
+                document.getElementById(`theme${t.charAt(0).toUpperCase()+t.slice(1)}Btn`)?.classList.toggle('active', t === theme);
+                document.getElementById(`theme${t.charAt(0).toUpperCase()+t.slice(1)}BtnMobile`)?.classList.toggle('active', t === theme);
+            });
+        }
+
+        function initTheme() {
+            setTheme(localStorage.getItem('kasama_theme') || 'light');
+        }
+
+        /* ===== AI Assistant: lightweight built-in website helper ===== */
+        function toggleAIAssistant() {
+            document.getElementById('aiAssistantModal')?.classList.toggle('hidden');
+            if (!document.getElementById('aiAssistantModal')?.classList.contains('hidden')) {
+                setTimeout(() => document.getElementById('aiInput')?.focus(), 100);
+            }
+        }
+
+        function addAIMessage(text, type='bot') {
+            const box = document.getElementById('aiMessages');
+            if (!box) return;
+            const div = document.createElement('div');
+            div.className = `ai-msg ${type === 'user' ? 'ai-user' : 'ai-bot'}`;
+            div.textContent = text;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function aiReply(question) {
+            const q = question.toLowerCase();
+            if (q.includes('post') || q.includes('advert') || q.includes('sell')) {
+                return 'Tap “POST ADVERT” at the top, choose Individual or Company, select the advert format and duration, enter your details, provide the MoMo transaction reference, preview the advert, then submit it for approval.';
+            }
+            if (q.includes('status') || q.includes('approval') || q.includes('reference')) {
+                return 'Open “POST ADVERT”, then choose “Check My Post Status”. Enter your Reference Code or registered WhatsApp number to see the current status.';
+            }
+            if (q.includes('search') || q.includes('find')) {
+                return 'Use the search box to search by advert title, reference code, or location. You can also tap a category to narrow the results.';
+            }
+            if (q.includes('category') || q.includes('business')) {
+                return 'Categories include shops, agriculture, real estate, transport, food, beauty, clothing, electronics, education, jobs, professional services, events, and other products/services.';
+            }
+            if (q.includes('price') || q.includes('cost') || q.includes('fee')) {
+                return 'Posting fees depend on whether you are an Individual or Company, the advert format, and the duration. The exact fee is shown before you submit your post.';
+            }
+            if (q.includes('whatsapp') || q.includes('contact') || q.includes('seller')) {
+                return 'Open an advert by tapping its card. In the full advert view, use “Contact via WhatsApp” to contact the advertiser directly.';
+            }
+            if (q.includes('dark') || q.includes('light') || q.includes('medium') || q.includes('theme')) {
+                return 'Use the ☀️ Light, ◐ Medium, or 🌙 Dark buttons in the header. Your choice is saved on this device.';
+            }
+            if (q.includes('help') || q.includes('hello') || q.includes('hi')) {
+                return 'I’m here to help. Ask me how to post an advert, check status, search adverts, contact a seller, understand fees, or change the theme.';
+            }
+            return 'I can help with posting adverts, checking status, searching, categories, fees, WhatsApp contact, and Light/Medium/Dark themes. Try asking one of those.';
+        }
+
+        function askAI(question) {
+            const clean = String(question || '').trim();
+            if (!clean) return;
+            addAIMessage(clean, 'user');
+            setTimeout(() => addAIMessage(aiReply(clean), 'bot'), 180);
+        }
+
+        function sendAIMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('aiInput');
+            const value = input?.value.trim();
+            if (!value) return;
+            askAI(value);
+            input.value = '';
+        }
+
+        /* Initialize theme as soon as the page loads */
+        initTheme();
+
     </script>
 </body>
 </html>
