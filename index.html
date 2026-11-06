@@ -135,12 +135,12 @@
 
         <!-- Filters & Counter -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200 pb-3 gap-3">
-            <h2 class="font-heading font-bold text-lg text-slate-900">Latest Kasama Adverts</h2>
+            <h2 class="font-heading font-bold text-lg text-slate-900">Kasama Business Adverts Feed</h2>
             <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-xs font-extrabold text-slate-500 uppercase">Status:</span>
                 <select id="statusFilter" onchange="handleSearch()" class="text-xs font-bold bg-white border border-slate-300 rounded-xl px-3 py-1.5 focus:outline-none focus:border-kasama-500">
                     <option value="All">All Statuses</option>
-                    <option value="Published">Published</option>
+                    <option value="Published">Published (Live)</option>
                     <option value="Awaiting Approval">Awaiting Approval</option>
                     <option value="Payment Pending">Payment Pending</option>
                 </select>
@@ -172,8 +172,9 @@
 
             <div class="bg-slate-100 px-6 py-3 border-b border-slate-200 flex items-center justify-between text-xs font-bold">
                 <span id="stepInd1" class="text-kasama-600 flex items-center gap-1"><span class="w-5 h-5 rounded-full bg-kasama-600 text-white text-[10px] inline-flex items-center justify-center">1</span> Who & Format</span>
-                <span id="stepInd2" class="text-slate-400 flex items-center gap-1"><span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] inline-flex items-center justify-center">2</span> Details & Media</span>
+                <span id="stepInd2" class="text-slate-400 flex items-center gap-1"><span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] inline-flex items-center justify-center">2</span> Details</span>
                 <span id="stepInd3" class="text-slate-400 flex items-center gap-1"><span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] inline-flex items-center justify-center">3</span> Payment</span>
+                <span id="stepInd4" class="text-slate-400 flex items-center gap-1"><span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] inline-flex items-center justify-center">4</span> Preview</span>
             </div>
 
             <form id="wizardForm" onsubmit="handleWizardSubmit(event)" class="p-5 space-y-4">
@@ -271,7 +272,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-700 mb-1" id="mediaInputLabel">Upload Media (iPhone, Android, or Computer)</label>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1" id="mediaInputLabel">Upload Media (Up to 25MB)</label>
                         <input type="file" id="wizardMediaFile" accept="image/*,video/*,audio/*" onchange="handleFilePreview(this, 'wizardFilePreview')" class="w-full p-2 border-2 border-slate-200 rounded-xl text-xs bg-white cursor-pointer">
                         <div id="wizardFilePreview" class="mt-2 text-xs font-semibold text-slate-500"></div>
                     </div>
@@ -304,7 +305,21 @@
                     </div>
                     <div class="flex gap-2">
                         <button type="button" onclick="goToWizardStep(2)" class="w-1/3 bg-slate-200 font-bold py-3 rounded-xl text-xs">Back</button>
-                        <button type="submit" id="wizardSubmitBtn" class="w-2/3 bg-kasama-600 text-white font-extrabold py-3 rounded-xl text-xs">Submit Post</button>
+                        <button type="button" onclick="preparePreview()" class="w-2/3 bg-kasama-600 text-white font-extrabold py-3 rounded-xl text-xs">Preview Advert</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Client Preview Step -->
+                <div id="wStep4" class="space-y-3 hidden">
+                    <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-3 text-center">
+                        <p class="text-xs font-bold text-amber-900"><i class="fa-solid fa-eye mr-1"></i> Preview Your Listing Before Submitting</p>
+                    </div>
+                    <div id="clientPreviewContainer" class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 space-y-2 text-xs">
+                        <!-- Dynamic Preview Rendered Here -->
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="goToWizardStep(3)" class="w-1/3 bg-slate-200 font-bold py-3 rounded-xl text-xs">Back</button>
+                        <button type="submit" id="wizardSubmitBtn" class="w-2/3 bg-kasama-600 text-white font-extrabold py-3 rounded-xl text-xs">Confirm & Submit Post</button>
                     </div>
                 </div>
             </form>
@@ -397,7 +412,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block font-bold mb-1">Upload Media from Device</label>
+                    <label class="block font-bold mb-1">Upload Media (Up to 25MB)</label>
                     <input type="file" id="admMediaFile" accept="image/*,video/*,audio/*" onchange="handleFilePreview(this, 'admFilePreview')" class="w-full p-2 border rounded-xl bg-white cursor-pointer">
                     <div id="admFilePreview" class="mt-1 text-[11px] font-semibold text-slate-500"></div>
                 </div>
@@ -525,23 +540,23 @@
             const adCount = document.getElementById("adCount");
             if (!grid) return;
 
-            const publicList = filtered.filter(ad => ad.status === "Published");
-            adCount.innerText = `${publicList.length} Items`;
+            adCount.innerText = `${filtered.length} Items`;
 
-            if (publicList.length === 0) { grid.innerHTML = ""; emptyState.classList.remove("hidden"); return; }
+            if (filtered.length === 0) { grid.innerHTML = ""; emptyState.classList.remove("hidden"); return; }
             emptyState.classList.add("hidden");
 
-            grid.innerHTML = publicList.map(ad => {
+            grid.innerHTML = filtered.map(ad => {
                 const url = ad.mediaUrl || '';
                 const isVideo = url.startsWith('data:video') || url.endsWith('.mp4') || url.endsWith('.webm') || url.includes('video') || url.endsWith('.mov');
                 const isAudio = url.startsWith('data:audio') || url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.m4a') || url.includes('audio');
+                const isPublished = ad.status === 'Published';
 
                 return `
                 <div class="bg-white border-2 border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-2">
                             <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase ${ad.badge === 'Company' ? 'bg-amber-100 text-amber-900' : 'bg-kasama-100 text-kasama-900'}">${ad.badge}</span>
-                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full border bg-emerald-100 text-emerald-800">Live</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${isPublished ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${ad.status}</span>
                         </div>
                         <div class="flex justify-between text-[11px] text-slate-400 font-mono mb-1">
                             <span>Ref: <strong>${ad.refCode}</strong></span>
@@ -597,9 +612,9 @@
 
             const labelEl = document.getElementById("mediaInputLabel");
             if (format === 'standard') {
-                if (labelEl) labelEl.innerText = "Upload Product Image (iPhone, Android, or PC)";
+                if (labelEl) labelEl.innerText = "Upload Product Image (Up to 25MB)";
             } else {
-                if (labelEl) labelEl.innerText = "Upload Audio or Video File (Max 4MB - Stream Only)";
+                if (labelEl) labelEl.innerText = "Upload Audio or Video File (Up to 25MB - Stream Only)";
             }
 
             let price = 10;
@@ -637,8 +652,16 @@
                 return;
             }
 
+            // Increased file size guard to 25MB
+            if (file.size > 25 * 1024 * 1024) {
+                alert("File is too large! Please select an image, audio, or video under 25MB.");
+                inputEl.value = "";
+                if (previewEl) previewEl.innerText = "";
+                return;
+            }
+
             if (file.type.startsWith('image/')) {
-                if (previewEl) previewEl.innerText = "Compressing photo for fast upload...";
+                if (previewEl) previewEl.innerText = "Optimizing photo...";
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const img = new Image();
@@ -646,7 +669,7 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const maxDim = 800;
+                        const maxDim = 1200; // Increased resolution limit for high quality photos
 
                         if (width > height && width > maxDim) {
                             height = Math.round((height * maxDim) / width);
@@ -661,22 +684,15 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
                         if (previewContainerId === 'wizardFilePreview') uploadedBase64Media = compressedDataUrl;
                         if (previewContainerId === 'admFilePreview') adminBase64Media = compressedDataUrl;
                         
-                        if (previewEl) previewEl.innerText = `Photo Ready: ${file.name} (Optimized)`;
+                        if (previewEl) previewEl.innerText = `Photo Ready: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
                     };
                     img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
-                return;
-            }
-
-            if (file.size > 4 * 1024 * 1024) {
-                alert("Audio/Video file is too large! Please select a clip under 4MB.");
-                inputEl.value = "";
-                if (previewEl) previewEl.innerText = "";
                 return;
             }
 
@@ -700,7 +716,64 @@
             document.getElementById("wStep1")?.classList.add("hidden");
             document.getElementById("wStep2")?.classList.add("hidden");
             document.getElementById("wStep3")?.classList.add("hidden");
+            document.getElementById("wStep4")?.classList.add("hidden");
+            
             document.getElementById(`wStep${n}`)?.classList.remove("hidden");
+
+            for (let i = 1; i <= 4; i++) {
+                const ind = document.getElementById(`stepInd${i}`);
+                if (ind) {
+                    if (i === n) {
+                        ind.className = "text-kasama-600 flex items-center gap-1 font-bold";
+                        ind.children[0].className = "w-5 h-5 rounded-full bg-kasama-600 text-white text-[10px] inline-flex items-center justify-center";
+                    } else if (i < n) {
+                        ind.className = "text-slate-700 flex items-center gap-1 font-bold";
+                        ind.children[0].className = "w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] inline-flex items-center justify-center";
+                    } else {
+                        ind.className = "text-slate-400 flex items-center gap-1";
+                        ind.children[0].className = "w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] inline-flex items-center justify-center";
+                    }
+                }
+            }
+        }
+
+        function preparePreview() {
+            const title = document.getElementById("wizardTitle").value.trim();
+            const category = document.getElementById("wizardCategory").value;
+            const location = document.getElementById("wizardLocation").value.trim();
+            const phone = document.getElementById("wizardPhone").value.trim();
+            const price = document.getElementById("wizardPrice").value.trim() || "Contact for price";
+            const desc = document.getElementById("wizardDescription").value.trim();
+            const momoRef = document.getElementById("wizardRefInput").value.trim();
+
+            if (!title || !location || !phone || !desc || !momoRef) {
+                alert("Please fill in all required fields and MoMo reference before previewing.");
+                goToWizardStep(2);
+                return;
+            }
+
+            goToWizardStep(4);
+            const previewContainer = document.getElementById("clientPreviewContainer");
+            
+            const isVideo = uploadedBase64Media.startsWith('data:video') || uploadedBase64Media.includes('video');
+            const isAudio = uploadedBase64Media.startsWith('data:audio') || uploadedBase64Media.includes('audio');
+
+            previewContainer.innerHTML = `
+                <div class="space-y-2">
+                    <p><strong>Title:</strong> ${title}</p>
+                    <p><strong>Category:</strong> ${category}</p>
+                    <p><strong>Location:</strong> ${location}</p>
+                    <p><strong>Phone:</strong> ${phone}</p>
+                    <p><strong>Price:</strong> ${price}</p>
+                    <p><strong>MoMo Ref:</strong> <span class="font-mono text-kasama-700 font-bold">${momoRef}</span></p>
+                    <p><strong>Description:</strong> ${desc}</p>
+                    ${uploadedBase64Media ? `
+                        <div class="mt-2 rounded-xl overflow-hidden bg-slate-950 p-1 flex items-center justify-center">
+                            ${isVideo ? `<video src="${uploadedBase64Media}" controls class="w-full max-h-36 object-cover"></video>` : isAudio ? `<audio src="${uploadedBase64Media}" controls class="w-full"></audio>` : `<img src="${uploadedBase64Media}" class="w-full max-h-36 object-cover rounded-lg">`}
+                        </div>
+                    ` : '<p class="text-slate-400 italic">No media attached</p>'}
+                </div>
+            `;
         }
 
         async function handleWizardSubmit(e) {
@@ -728,7 +801,8 @@
                 description: document.getElementById("wizardDescription").value,
                 badge: type === "company" ? "Company" : "Individual",
                 status: "Awaiting Approval",
-                durationText: `${durationText} (${format === 'audiovideo' ? 'Audio/Video' : 'Standard Image'}) [MoMoRef: ${momoRef}]`
+                durationText: `${durationText} (${format === 'audiovideo' ? 'Audio/Video' : 'Standard Image'})`,
+                momoRef: momoRef
             };
 
             const { error } = await db.from('adverts').insert([newAd]);
@@ -742,7 +816,7 @@
                 alert(`Error saving post: ${error.message}`);
             }
 
-            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = "Submit Post"; }
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = "Confirm & Submit Post"; }
         }
 
         function openAdminModal() { 
@@ -794,7 +868,8 @@
                 description: document.getElementById("admDesc").value,
                 badge: document.getElementById("admType").value,
                 status: "Published",
-                durationText: `Admin Direct Post [MoMoRef: ${momoRef}]`
+                durationText: "Admin Direct Post",
+                momoRef: momoRef
             };
 
             const { error } = await db.from('adverts').insert([newAd]);
@@ -821,7 +896,7 @@
                         <div class="flex items-center gap-2 mb-1 flex-wrap">
                             <span class="font-mono font-bold text-slate-700">${ad.refCode}</span>
                             <span class="px-2 py-0.5 rounded text-[10px] font-extrabold ${ad.status === 'Published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${ad.status}</span>
-                            <span class="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded font-mono font-bold text-[10px]">MoMo Ref: ${ad.durationText && ad.durationText.includes('MoMoRef:') ? ad.durationText.split('MoMoRef:')[1].replace(']', '').trim() : 'N/A'}</span>
+                            <span class="bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded font-mono font-bold text-[10px]">MoMo Ref: ${ad.momoRef || 'N/A'}</span>
                         </div>
                         <h4 class="font-bold text-slate-900 text-sm">${ad.title}</h4>
                         <p class="text-slate-500">${ad.category} — ${ad.location} | Ph: ${ad.phone}</p>
@@ -830,6 +905,7 @@
                         <select id="status-select-${ad.id}" class="p-1.5 border rounded-xl text-xs bg-white font-bold">
                             <option value="Published" ${ad.status === 'Published' ? 'selected' : ''}>Published (Live)</option>
                             <option value="Awaiting Approval" ${ad.status === 'Awaiting Approval' ? 'selected' : ''}>Awaiting Approval</option>
+                            <option value="Payment Pending" ${ad.status === 'Payment Pending' ? 'selected' : ''}>Payment Pending</option>
                         </select>
                         <button onclick="changeAdStatus(${ad.id})" class="bg-kasama-600 hover:bg-kasama-700 text-white px-3 py-1.5 rounded-xl font-bold">Save</button>
                         <button onclick="deleteAd(${ad.id})" class="bg-rose-100 hover:bg-rose-200 text-rose-800 px-3 py-1.5 rounded-xl font-bold">Delete</button>
